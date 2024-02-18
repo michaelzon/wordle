@@ -19,7 +19,7 @@ import {
 import Modal from "./Modal";
 
 function Wordle() {
-    const {rows, winnerModalIsOpen, loserModalIsOpen, handleCloseModal} = useWordle();
+    const {rows, winnerModalIsOpen, loserModalIsOpen, handleCloseModal, wordExists} = useWordle();
 
     return (
         <main className={container}>
@@ -49,6 +49,12 @@ function Wordle() {
                             </div>
                         ))}
                     </div>
+                    {!wordExists &&
+                        <section id='word-check' className={`${themeClass} ${gameInstructions}`}
+                                 aria-labelledby="word-check">
+                            <p> This word can't be found in the dictionary. Try a valid word.</p>
+                        </section>
+                    }
                     <footer className={footer}>
                         <p className={author}>
                             Made by: Michael Zonneveld for CVMaker

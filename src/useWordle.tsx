@@ -1,5 +1,6 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
 import axios from "axios";
+import {existingWords} from "./words"
 
 interface Tile {
     letter: string;
@@ -15,7 +16,7 @@ export function useWordle() {
     const multiples = useRef<string[]>([]);
     const [winnerModalIsOpen, setWinnerModalIsOpen] = useState(false);
     const [loserModalIsOpen, setLoserModalIsOpen] = useState(false);
-
+    const [wordExists, setWordExists] = useState(true);
     const initRows = (): Tile[][] => {
         return Array(5).fill(null).map(() =>
             Array(5).fill(null).map(() => ({
@@ -23,7 +24,7 @@ export function useWordle() {
                 evaluation: '',
             }))
         );
-    }
+    };
 
     const fetchWord = async () => {
         try {
@@ -44,13 +45,14 @@ export function useWordle() {
         asyncEffect().catch(error => console.error("An error occurred while fetching the data", error));
     }, []);
 
-    const handleKeyUp = useCallback((e: KeyboardEvent) => {
+    const handleKeyUp = useCallback(async (e: KeyboardEvent) => {
         if (/^[a-z]$/i.test(e.key) && currentTileIndex < 5 && turn < 5) {
             addLetterToTile(e.key);
         }
 
         if (e.key === 'Backspace') {
             if (currentTileIndex > 0) {
+                setWordExists(true);
                 setRows(prev => {
                     const newRows = [...prev];
                     newRows[turn][currentTileIndex - 1].letter = "";
@@ -64,14 +66,26 @@ export function useWordle() {
         }
 
         if (e.key === 'Enter' && currentTileIndex === 5) {
-            checkForMultiples();
-            handleRows();
-            checkIfGuessIsCorrect();
+            const promise = new Promise((resolve, reject) => {
+                if (existingWords.includes(currentGuess.join(''))) {
+                    resolve('Word is in dictionary');
+                } else {
+                    reject('Word is not in dictionary');
+                }
+            });
 
-            setCurrentTileIndex(0);
-            setTurn(prev => prev + 1);
-            setCurrentGuess([]);
+            promise.then(() => {
+                checkForMultiples();
+                handleRows();
+                checkIfGuessIsCorrect();
+                setCurrentTileIndex(0);
+                setTurn(prev => prev + 1);
+                setCurrentGuess([]);
+            }).catch(() => {
+                setWordExists(false);
+            });
         }
+
     }, [currentTileIndex, currentGuess]);
 
     useEffect(() => {
@@ -92,13 +106,13 @@ export function useWordle() {
         });
 
         setCurrentTileIndex(currentTileIndex + 1);
-    }
+    };
 
     const handleRows = () => {
         const newRows = [...rows];
         evaluateGuess(currentGuess, newRows);
         setRows(newRows);
-    }
+    };
 
     function checkForMultiples(): void {
         multiples.current = currentGuess.filter((letter, index) => currentGuess.indexOf(letter) !== index);
@@ -116,7 +130,7 @@ export function useWordle() {
                 setLoserModalIsOpen(true);
             }, delay);
         }
-    }
+    };
 
     const evaluateGuess = (input: string[], newRows: Tile[][]) => {
         input.forEach((char: string, i: number) => {
@@ -125,6 +139,7 @@ export function useWordle() {
                 newRows[turn][i].evaluation = 'correct';
             }
         });
+
         input.forEach((char) => {
             if (mysteryWord.includes(char)) {
                 newRows[turn].forEach((item, i) => {
@@ -149,5 +164,5 @@ export function useWordle() {
         })();
     };
 
-    return {rows: rows, winnerModalIsOpen, loserModalIsOpen, handleCloseModal};
+    return {rows: rows, winnerModalIsOpen, loserModalIsOpen, handleCloseModal, wordExists};
 }
