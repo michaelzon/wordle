@@ -17,6 +17,7 @@ export function useWordle() {
     const [winnerModalIsOpen, setWinnerModalIsOpen] = useState(false);
     const [loserModalIsOpen, setLoserModalIsOpen] = useState(false);
     const [wordExists, setWordExists] = useState(true);
+
     const initRows = (): Tile[][] => {
         return Array(5).fill(null).map(() =>
             Array(5).fill(null).map(() => ({
@@ -66,7 +67,7 @@ export function useWordle() {
         }
 
         if (e.key === 'Enter' && currentTileIndex === 5) {
-            const promise = new Promise((resolve, reject) => {
+            const lookUpWord = new Promise((resolve, reject) => {
                 if (existingWords.includes(currentGuess.join(''))) {
                     resolve('Word is in dictionary');
                 } else {
@@ -74,7 +75,7 @@ export function useWordle() {
                 }
             });
 
-            promise.then(() => {
+            lookUpWord.then(() => {
                 checkForMultiples();
                 handleRows();
                 checkIfGuessIsCorrect();
