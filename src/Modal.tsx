@@ -13,10 +13,10 @@ export const Modal: React.FC<ModalProps> = ({isOpen, onClose, children, ...props
     let ref = React.useRef(null);
     let {dialogProps} = useDialog(props, ref);
 
-    // ensuring enter can also close the modal for accessibility
+    // ensuring escape can also close the modal for accessibility
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.key === 'Enter') {
+            if (event.key === 'Escape') {
                 onClose();
             }
         };
