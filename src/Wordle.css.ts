@@ -118,7 +118,7 @@ export const gameResults = style({
     textAlign: 'center',
 });
 
-export const emoji = style({
+export const emojiWrapper = style({
     display: "flex",
     fontSize: '5rem',
     alignItems: 'center',

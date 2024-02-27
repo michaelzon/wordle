@@ -10,13 +10,14 @@ import {
     gameInstructions,
     letterPresent,
     letterCorrect,
-    emoji,
+    emojiWrapper,
     gameResults,
     header,
     footer,
     author
 } from "./Wordle.css";
 import Modal from "./Modal";
+import {NewModal} from "./Modal/NewModal";
 
 function Wordle() {
     const {rows, winnerModalIsOpen, loserModalIsOpen, handleCloseModal, wordExists} = useWordle();
@@ -62,27 +63,30 @@ function Wordle() {
                     </footer>
                 </div>
             }
-            <Modal isOpen={winnerModalIsOpen} onClose={handleCloseModal}>
-                <section className={gameResults} aria-labelledby="game-results">
-                    <div className={emoji} aria-label="trophy-emoji"> 🏆</div>
-                    <h3>You're a Winner, Champ!</h3>
-                    <p aria-label="party-popper-emoji"> Congrats! You've crushed it and won the game. Now, bask in your
-                        glory and celebrate like
-                        a
-                        boss!
-                        🎉 </p>
-                </section>
-            </Modal>
-            <Modal isOpen={loserModalIsOpen} onClose={handleCloseModal}>
-                <section className={gameResults} aria-labelledby="game-results">
-                    <div className={emoji} aria-label="see-no-evil-monkey-emoji"> 🙈</div>
-                    <h3>Oops! Though Luck, But Don't Give Up!</h3>
-                    <p aria-label="flexed-biceps-emoji video-game-emoji"> You didn't quite make it this time, but hey,
-                        no worries! Give it another shot, and who
-                        knows,
-                        the next round might be your moment of glory! Keep going champ! 💪🎮 </p>
-                </section>
-            </Modal>
+            <NewModal
+                isOpen={true}
+                onClose={handleCloseModal}
+                header={'You\'re a Winner, Champ!'}
+                emoji={'🏆'}
+                body={' Congrats! You\'ve crushed it and won the game. Now, bask in your glory and celebrate like a boss! 🎉'}
+                />
+            {/*<Modal isOpen={winnerModalIsOpen} onClose={handleCloseModal}>*/}
+            {/*    <section className={gameResults} aria-labelledby="game-results">*/}
+            {/*        <div className={emoji} aria-label="trophy-emoji"> 🏆</div>*/}
+            {/*        <h3>You're a Winner, Champ!</h3>*/}
+            {/*        <p aria-label="party-popper-emoji"> Congrats! You've crushed it and won the game. Now, bask in your glory and celebrate like a boss! 🎉 </p>*/}
+            {/*    </section>*/}
+            {/*</Modal>*/}
+            {/*<Modal isOpen={loserModalIsOpen} onClose={handleCloseModal}>*/}
+            {/*    <section className={gameResults} aria-labelledby="game-results">*/}
+            {/*        <div className={emoji} aria-label="see-no-evil-monkey-emoji"> 🙈</div>*/}
+            {/*        <h3>Oops! Though Luck, But Don't Give Up!</h3>*/}
+            {/*        <p aria-label="flexed-biceps-emoji video-game-emoji"> You didn't quite make it this time, but hey,*/}
+            {/*            no worries! Give it another shot, and who*/}
+            {/*            knows,*/}
+            {/*            the next round might be your moment of glory! Keep going champ! 💪🎮 </p>*/}
+            {/*    </section>*/}
+            {/*</Modal>*/}
         </main>
     );
 }
