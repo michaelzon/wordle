@@ -15,7 +15,7 @@ interface ModalProps {
 export const NewModal: React.FC<ModalProps> = ({header, emoji, body, isOpen, onClose}) => {
 
     return (
-        
+
         <dialog className={modal}>
             <section className={gameResults} aria-labelledby="game-results">
                 <ModalEmoji> {emoji} </ModalEmoji>
