@@ -1,5 +1,5 @@
 import React from 'react';
-import {emojiWrapper} from "../Wordle.css";
+import {emojiWrapper} from "../styles/Wordle.css";
 
 interface ModalEmojiProps {
     children: any;

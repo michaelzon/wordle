@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {modal, modalButton} from "./Wordle.css";
+import {modal, modalButton} from "./styles/Wordle.css";
 import {useDialog} from 'react-aria';
 import type {AriaDialogProps} from 'react-aria';
 

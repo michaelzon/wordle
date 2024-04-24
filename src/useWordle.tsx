@@ -15,10 +15,10 @@ export function useWordle() {
     const [currentTileIndex, setCurrentTileIndex] = useState<number>(0);
     const [currentGuess, setCurrentGuess] = useState<string[]>([]);
     const multiples = useRef<string[]>([]);
-    const [winnerModalIsOpen, setWinnerModalIsOpen] = useState(false);
-    const [loserModalIsOpen, setLoserModalIsOpen] = useState(false);
+    const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+    const [roundIsWon, setRoundIsWon] = useState<boolean>(false);
     const [wordExists, setWordExists] = useState(true);
-
+    
     const initRows = (): Tile[][] => {
         return Array(5).fill(null).map(() =>
             Array(5).fill(null).map(() => ({
@@ -138,11 +138,13 @@ export function useWordle() {
         const delay = 1000;
         if (userHasWon) {
             setTimeout(() => {
-                setWinnerModalIsOpen(true);
+                setRoundIsWon(true);
+                setModalIsOpen(true);
             }, delay);
         } else if (!userHasWon && turn === 4) {
             setTimeout(() => {
-                setLoserModalIsOpen(true);
+                setRoundIsWon(false);
+                setModalIsOpen(true);
             }, delay);
         }
     };
@@ -168,9 +170,9 @@ export function useWordle() {
 
     console.log(mysteryWord);
 
-    const handleCloseModal = () => {
-        setWinnerModalIsOpen(false);
-        setLoserModalIsOpen(false);
+    const handleTryAgain = () => {
+        setRoundIsWon(false);
+        setModalIsOpen(false)
         setCurrentTileIndex(0);
         setTurn(0);
         setCurrentGuess([]);
@@ -182,5 +184,5 @@ export function useWordle() {
         })();
     };
 
-    return {rows: rows, winnerModalIsOpen, loserModalIsOpen, handleCloseModal, wordExists};
+    return {rows: rows, handleTryAgain, wordExists, roundIsWon, modalIsOpen};
 }

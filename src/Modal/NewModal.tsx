@@ -1,5 +1,5 @@
 import React, {createContext} from 'react';
-import {emojiWrapper, gameResults, modal, modalButton} from "../Wordle.css";
+import {emojiWrapper, gameResults, modal, modalButton} from "../styles/Wordle.css";
 import {ModalEmoji} from "./ModalEmoji";
 import {ModalHeader} from "./ModalHeader";
 import {ModalBody} from "./ModalBody";
@@ -15,7 +15,6 @@ interface ModalProps {
 export const NewModal: React.FC<ModalProps> = ({header, emoji, body, isOpen, onClose}) => {
 
     return (
-
         <dialog className={modal}>
             <section className={gameResults} aria-labelledby="game-results">
                 <ModalEmoji> {emoji} </ModalEmoji>
@@ -24,8 +23,6 @@ export const NewModal: React.FC<ModalProps> = ({header, emoji, body, isOpen, onC
             </section>
         </dialog>
     );
-
-
 };
 
 interface NewModalWithStatics extends React.FC<ModalProps> {

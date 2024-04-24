@@ -1,4 +1,4 @@
-import {useWordle} from './useWordle'
+import { useWordle } from './useWordle'
 import {
     grid,
     container,
@@ -14,79 +14,128 @@ import {
     gameResults,
     header,
     footer,
-    author
-} from "./Wordle.css";
+    author,
+    simpleButton,
+    modalButton
+} from "./styles/Wordle.css";
 import Modal from "./Modal";
-import {NewModal} from "./Modal/NewModal";
+import { NewModal } from "./Modal/NewModal";
+import React, { createContext, useState, useEffect, useContext, FunctionComponent } from 'react';
+import { CompoundModal } from "./Modal/CompoundModal";
+import GameInfoAndInstruction from './Components/GameInfoAndInstructions';
+import Grid from './Components/Grid';
+import WordCheckInfo from './Components/WordCheckInfo';
+import Footer from './Components/Footer';
+
+interface ToggleContextType {
+    on: boolean;
+    toggle: () => void;
+}
+
+const defaultContextValue: ToggleContextType = {
+    on: false,
+    toggle: () => { }
+};
+
+const ToggleContext = createContext<ToggleContextType>(defaultContextValue);
+
+interface ToggleProps {
+    onToggle: (on: boolean) => void;
+    children: React.ReactNode;
+}
+
+interface OnOffProps {
+    children: React.ReactNode;
+}
+
+const On: React.FC<OnOffProps> = ({ children }) => {
+    const { on } = useContext(ToggleContext);
+    return on ? <>{children}</> : null;
+};
+
+// Define a custom type that includes the static property
+interface ToggleComponent extends FunctionComponent<ToggleProps> {
+    On: React.FC<OnOffProps>;
+}
+
+// Use the custom type for the Toggle component
+const Toggle: ToggleComponent = (props) => {
+    const [on, setOn] = useState(false);
+
+    const toggle = () => {
+        setOn(oldOn => !oldOn);
+    };
+
+    useEffect(() => {
+        props.onToggle(on);
+    }, [on, props.onToggle]);
+
+    return (
+        <ToggleContext.Provider value={{ on, toggle }}>
+            {props.children}
+        </ToggleContext.Provider>
+    );
+};
+
+Toggle.On = On;
+
+export { Toggle, ToggleContext };
+
+type RoundContextType = {
+    progress: string;
+    setProgress: (progress: string) => void;
+}
+
+const defaultRoundContextValue: RoundContextType = {
+    progress: 'ongoing',
+    setProgress: () => { }
+}
 
 function Wordle() {
-    const {rows, winnerModalIsOpen, loserModalIsOpen, handleCloseModal, wordExists} = useWordle();
+    const { rows, wordExists, modalIsOpen, handleTryAgain, roundIsWon} = useWordle();
+    // const roundContext = createContext<RoundContextType>(defaultRoundContextValue);
 
     return (
         <main className={container}>
-            {!winnerModalIsOpen && !loserModalIsOpen &&
+            {!modalIsOpen &&
                 <div className={wrapper}>
-                    <header className={header}>
-                        <h1>Wordle!</h1>
-                    </header>
-                    <section id='game-instructions' className={`${themeClass} ${gameInstructions}`}
-                             aria-labelledby="game-instructions">
-                        <h3>How to Play</h3>
-                        <p>Guess the WORDLE in 5 tries. Each guess must be a valid five-letter word. Hit the enter
-                            button to
-                            submit.</p>
-                    </section>
-                    <div className={grid} role="grid">
-                        {rows.map((row, i) => (
-                            <div className={gridRow} role="row" key={i}>
-                                {row.map((tile, j) => (
-                                    <div key={`${i}-${j}`}
-                                         className={`${gridItem} ${tile.letter !== '' && gridItemFilled} ${tile.evaluation === 'present' && letterPresent} ${tile.evaluation === 'correct' && letterCorrect}`}
-                                         role="gridcell"
-                                         aria-label={`Letter ${tile.letter}, Evaluation ${tile.evaluation}`}>
-                                        {tile.letter}
-                                    </div>
-                                ))}
-                            </div>
-                        ))}
-                    </div>
+                    <GameInfoAndInstruction />
+                    <Grid rows={rows} />
                     {!wordExists &&
-                        <section id='word-check' className={`${themeClass} ${gameInstructions}`}
-                                 aria-labelledby="word-check">
-                            <p> This word can't be found in the dictionary. Try a valid word.</p>
-                        </section>
+                        <WordCheckInfo />
                     }
-                    <footer className={footer}>
-                        <p className={author}>
-                            Made by: Michael Zonneveld for CVMaker
-                        </p>
-                    </footer>
+                    <Footer/>
                 </div>
             }
-            <NewModal
-                isOpen={true}
-                onClose={handleCloseModal}
-                header={'You\'re a Winner, Champ!'}
-                emoji={'🏆'}
-                body={' Congrats! You\'ve crushed it and won the game. Now, bask in your glory and celebrate like a boss! 🎉'}
-                />
-            {/*<Modal isOpen={winnerModalIsOpen} onClose={handleCloseModal}>*/}
-            {/*    <section className={gameResults} aria-labelledby="game-results">*/}
-            {/*        <div className={emoji} aria-label="trophy-emoji"> 🏆</div>*/}
-            {/*        <h3>You're a Winner, Champ!</h3>*/}
-            {/*        <p aria-label="party-popper-emoji"> Congrats! You've crushed it and won the game. Now, bask in your glory and celebrate like a boss! 🎉 </p>*/}
-            {/*    </section>*/}
-            {/*</Modal>*/}
-            {/*<Modal isOpen={loserModalIsOpen} onClose={handleCloseModal}>*/}
-            {/*    <section className={gameResults} aria-labelledby="game-results">*/}
-            {/*        <div className={emoji} aria-label="see-no-evil-monkey-emoji"> 🙈</div>*/}
-            {/*        <h3>Oops! Though Luck, But Don't Give Up!</h3>*/}
-            {/*        <p aria-label="flexed-biceps-emoji video-game-emoji"> You didn't quite make it this time, but hey,*/}
-            {/*            no worries! Give it another shot, and who*/}
-            {/*            knows,*/}
-            {/*            the next round might be your moment of glory! Keep going champ! 💪🎮 </p>*/}
-            {/*    </section>*/}
-            {/*</Modal>*/}
+
+            <CompoundModal isOpen = {modalIsOpen}>
+                <CompoundModal.Header title={`${roundIsWon ? "You're a Winner, Champ! 🏆" : "Oops! Though Luck, But Don't Give Up!"}`}>
+                </CompoundModal.Header>
+                {/* <CompoundModal.Body> */}
+                    {/* Congrats! You've crushed it and won the game. Now, bask in your glory and celebrate like a boss! 🎉 */}
+                {/* </CompoundModal.Body> */}
+                <CompoundModal.Footer handleClose={handleTryAgain}>
+                    Try Again
+                </CompoundModal.Footer>
+            </CompoundModal>
+
+            {/* <Modal isOpen={winnerModalIsOpen} onClose={handleCloseModal}>
+                <section className={gameResults} aria-labelledby="game-results">
+                    <div className={emojiWrapper} aria-label="trophy-emoji"> 🏆</div>
+                    <h3>You're a Winner, Champ!</h3>
+                    <p aria-label="party-popper-emoji"> Congrats! You've crushed it and won the game. Now, bask in your glory and celebrate like a boss! 🎉 </p>
+                </section>
+            </Modal>
+            <Modal isOpen={loserModalIsOpen} onClose={handleCloseModal}>
+                <section className={gameResults} aria-labelledby="game-results">
+                    <div className={emojiWrapper} aria-label="see-no-evil-monkey-emoji"> 🙈</div>
+                    <h3>Oops! Though Luck, But Don't Give Up!</h3>
+                    <p aria-label="flexed-biceps-emoji video-game-emoji"> You didn't quite make it this time, but hey,
+                        no worries! Give it another shot, and who
+                        knows,
+                        the next round might be your moment of glory! Keep going champ! 💪🎮 </p>
+                </section>
+            </Modal> */}
         </main>
     );
 }

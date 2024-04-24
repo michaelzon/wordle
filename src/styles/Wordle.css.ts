@@ -140,3 +140,10 @@ export const modalButton = style({
     paddingTop: '1rem',
     paddingBottom: '1rem'
 });
+
+export const simpleButton = style({
+    width: 'auto',
+    height: 'auto',
+    border: '2px solid blue',
+    background: 'grey'
+})
