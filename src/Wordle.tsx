@@ -18,8 +18,6 @@ import {
     simpleButton,
     modalButton
 } from "./styles/Wordle.css";
-import Modal from "./Modal";
-import { NewModal } from "./Modal/NewModal";
 import React, { createContext, useState, useEffect, useContext, FunctionComponent } from 'react';
 import { CompoundModal } from "./Modal/CompoundModal";
 import GameInfoAndInstruction from './Components/GameInfoAndInstructions';
@@ -92,7 +90,7 @@ const defaultRoundContextValue: RoundContextType = {
 }
 
 function Wordle() {
-    const { rows, wordExists, modalIsOpen, handleTryAgain, roundIsWon} = useWordle();
+    const { rows, wordExists, modalIsOpen, handleTryAgain, roundIsWon } = useWordle();
     // const roundContext = createContext<RoundContextType>(defaultRoundContextValue);
 
     return (
@@ -104,19 +102,14 @@ function Wordle() {
                     {!wordExists &&
                         <WordCheckInfo />
                     }
-                    <Footer/>
+                    <Footer />
                 </div>
             }
-
-            <CompoundModal isOpen = {modalIsOpen}>
-                <CompoundModal.Header title={`${roundIsWon ? "You're a Winner, Champ! 🏆" : "Oops! Though Luck, But Don't Give Up!"}`}>
-                </CompoundModal.Header>
-                {/* <CompoundModal.Body> */}
-                    {/* Congrats! You've crushed it and won the game. Now, bask in your glory and celebrate like a boss! 🎉 */}
-                {/* </CompoundModal.Body> */}
-                <CompoundModal.Footer handleClose={handleTryAgain}>
-                    Try Again
-                </CompoundModal.Footer>
+            <CompoundModal isOpen={modalIsOpen}>
+                <CompoundModal.BigEmoji emoji={`${roundIsWon ? "🏆" : "🙈"}`} />
+                <CompoundModal.Header title={`${roundIsWon ? "You're a Winner, Champ! 🏆" : "Oops! Though Luck, But Don't Give Up!"}`} />
+                <CompoundModal.Body description={`${roundIsWon ? "Congrats! You've crushed it and won the game. Now, bask in your glory and celebrate like a boss! 🎉" : "You didn't quite make it this time, but hey no worries! Give it another shot, and whoknows, the next round might be your moment of glory! Keep going champ! 💪🎮 "}`} />
+                <CompoundModal.Footer buttonText={'Try Again'} handleClose={handleTryAgain} />
             </CompoundModal>
 
             {/* <Modal isOpen={winnerModalIsOpen} onClose={handleCloseModal}>

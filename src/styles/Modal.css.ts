@@ -14,16 +14,20 @@ export const modal = style({
     display: 'flex',
     flexDirection: 'column',
     minHeight: '18rem',
-    minWidth: '20rem',
+    minWidth: '22rem',
     maxHeight: '18rem',
     maxWidth: '22rem',
     borderRadius: '0.6rem',
-    padding: '2.5rem 1rem 1.5rem 1rem',
+    padding: '2.5rem 1.5rem 2rem 1.5rem',
     marginTop: '12rem',
     animation: `${fadeInAnimation} 1s`,
     color: 'white',
     border: 'none',
     justifyContent: 'space-around'
+});
+
+export const modalBigEmoji = style({
+
 });
 
 export const modalHeader = style({
@@ -32,8 +36,18 @@ export const modalHeader = style({
     justifyContent: 'center'
 });
 
+
+export const modalEmojiContent = style({
+    display: "flex",
+    fontSize: '5rem',
+    alignItems: 'center',
+    justifyContent: 'center'
+});
+
 export const modalHeaderContent = style({
+    margin: 0,
     fontSize: '1.6rem',
+    textAlign: 'center'
 });
 
 export const modalFooter = style({
@@ -63,7 +77,7 @@ export const modalButton = style({
     color: 'white',
     fontSize: '1rem',
     paddingTop: '1rem',
-    paddingBottom: '1rem'
+    paddingBottom: '1rem',
 });
 
 
