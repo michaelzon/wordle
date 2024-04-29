@@ -10,7 +10,6 @@ export const GameInfoAndInstruction = () => {
         <>
             <header className={header}>
                 <h1>Wordle!</h1>
-                {/* <button onClick={toggle}>{isToggled ? 'Turn Off' : 'Turn On'}</button> */}
             </header>
             <section id='game-instructions' className={`${themeClass} ${gameInstructions}`}
                 aria-labelledby="game-instructions">

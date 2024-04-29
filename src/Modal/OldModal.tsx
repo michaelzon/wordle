@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {modal, modalButton} from "./styles/Wordle.css";
+import {modal, modalButton} from "../styles/Wordle.css";
 import {useDialog} from 'react-aria';
 import type {AriaDialogProps} from 'react-aria';
 
@@ -9,7 +9,7 @@ interface ModalProps extends AriaDialogProps {
     children: React.ReactNode;
 }
 
-export const Modal: React.FC<ModalProps> = ({isOpen, onClose, children, ...props}) => {
+export const OldModal: React.FC<ModalProps> = ({isOpen, onClose, children, ...props}) => {
     let ref = React.useRef(null);
     let {dialogProps} = useDialog(props, ref);
 
@@ -40,4 +40,4 @@ export const Modal: React.FC<ModalProps> = ({isOpen, onClose, children, ...props
     );
 };
 
-export default Modal
+export default OldModal

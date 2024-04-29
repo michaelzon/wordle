@@ -1,7 +1,6 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
 import axios from "axios";
 import {existingWords} from "./words"
-import wordle from "./Wordle";
 
 interface Tile {
     letter: string;

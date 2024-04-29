@@ -1,15 +1,15 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { ReactNode, createContext } from 'react';
 import {
     modal,
     modalBigEmoji,
-    modalHeader,
     modalBody,
-    modalFooter,
+    modalBodyContent,
     modalButton,
     modalEmojiContent,
-    modalHeaderContent,
-    modalBodyContent,
+    modalFooter,
     modalFooterContent,
+    modalHeader,
+    modalHeaderContent,
 } from "../styles/Modal.css";
 
 interface ModalProps {
