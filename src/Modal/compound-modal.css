@@ -1,0 +1,69 @@
+@keyframes fadeInAnimation {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal {
+    background: #282626;
+    display: flex;
+    flex-direction: column;
+    min-height: 18rem;
+    min-width: 22rem;
+    max-height: 18rem;
+    max-width: 22rem;
+    border-radius: 0.6rem;
+    padding: 2.5rem 1.5rem 2rem 1.5rem;
+    margin-top: 12rem;
+    animation: fadeInAnimation 1s;
+    color: white;
+    border: none;
+    justify-content: space-around;
+}
+
+.modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal__emoji-content {
+    display: flex;
+    font-size: 5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal__header-content {
+    margin: 0;
+    font-size: 1.6rem;
+    text-align: center;
+}
+
+.modal__body {
+    text-align: center;
+}
+
+.modal__body-content {
+    font-size: 1rem;
+}
+
+.modal__button {
+    background: #3f82f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2rem;
+    width: 100%;
+    border-radius: 0.4rem;
+    outline: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+

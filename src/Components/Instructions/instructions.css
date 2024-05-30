@@ -1,0 +1,16 @@
+.header {
+    text-align: center;
+}
+
+.instructions {
+    min-width: 30rem;
+    max-width: 40rem;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.theme {
+    font-family: Helvetica, Arial, sans-serif;
+    color: white
+}
+

@@ -1,17 +1,13 @@
-import {
-    gameInstructions,
-    header,
-    themeClass
-} from "../styles/Wordle.css";
+import "./instructions.css";
 
-export const GameInfoAndInstruction = () => {
+export const Instructions = () => {
 
     return (
         <>
-            <header className={header}>
+            <header className="header">
                 <h1>Wordle!</h1>
             </header>
-            <section id='game-instructions' className={`${themeClass} ${gameInstructions}`}
+            <section id='gameInstructions' className={`${'theme'} ${'instructions'}`}
                 aria-labelledby="game-instructions">
                 <h3>How to Play</h3>
                 <p>Guess the WORDLE in 5 tries. Each guess must be a valid five-letter word. Hit the enter
@@ -22,4 +18,4 @@ export const GameInfoAndInstruction = () => {
     );
 };
 
-export default GameInfoAndInstruction
+export default Instructions

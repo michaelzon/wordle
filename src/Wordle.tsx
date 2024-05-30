@@ -1,22 +1,19 @@
-import Footer from './Components/Footer';
-import GameInfoAndInstruction from './Components/GameInfoAndInstructions';
-import Grid from './Components/Grid';
-import WordCheckInfo from './Components/WordCheckInfo';
+import Footer from './Components/Footer/Footer';
+import Instructions from './Components/Instructions/Instructions';
+import Grid from './Components/Grid/Grid';
+import WordCheckInfo from './Components/WordCheckInfo/WordCheckInfo';
 import { CompoundModal } from "./Modal/CompoundModal";
-import {
-    container,
-    wrapper
-} from "./styles/Wordle.css";
 import { useWordle } from './useWordle';
+import './wordle.css';
 
 function Wordle() {
     const { rows, wordExists, modalIsOpen, handleTryAgain, roundIsWon } = useWordle();
 
     return (
-        <main className={container}>
+        <main className={"container"}>
             {!modalIsOpen &&
-                <div className={wrapper}>
-                    <GameInfoAndInstruction />
+                <div className={"wrapper"}>
+                    <Instructions />
                     <Grid rows={rows} />
                     {!wordExists &&
                         <WordCheckInfo />

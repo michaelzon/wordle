@@ -28,9 +28,9 @@ export function useWordle() {
 
     const fetchWordHeroku = async () => {
         try {
-            const response = await axios.get('https://random-word-api.herokuapp.com/word?length=5');
-            setMysteryWord(response.data[0].split(''));
-            // setMysteryWord(['h', 'e', 'l', 'l', 'o']);
+            // const response = await axios.get('https://random-word-api.herokuapp.com/word?length=5');
+            // setMysteryWord(response.data[0].split(''));
+            setMysteryWord(['h', 'e', 'l', 'l', 'o']);
         } catch (error) {
             console.error('Error fetching wordle data', error);
         }

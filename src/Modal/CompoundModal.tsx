@@ -1,16 +1,5 @@
 import React, { ReactNode, createContext } from 'react';
-import {
-    modal,
-    modalBigEmoji,
-    modalBody,
-    modalBodyContent,
-    modalButton,
-    modalEmojiContent,
-    modalFooter,
-    modalFooterContent,
-    modalHeader,
-    modalHeaderContent,
-} from "../styles/Modal.css";
+import "./compound-modal.css";
 
 interface ModalProps {
     isOpen: boolean;
@@ -49,11 +38,11 @@ export const CompoundModal = ({ isOpen, children }: ModalProps) => {
     return (
         <ModalContext.Provider value={{ isOpen }}>
             {isOpen && (
-                <div className={modal}>
-                    <div className={modalBigEmoji}> {bigEmoji}</div>
-                    <div className={modalHeader}>{header}</div>
-                    <div className={modalBody}>{body}</div>
-                    <div className={modalFooter}>{footer}</div>
+                <div className={"modal"}>
+                    <div className={"modal__big-emoji"}> {bigEmoji}</div>
+                    <div className={"modal__header"}>{header}</div>
+                    <div className={"modal__body"}>{body}</div>
+                    <div className={"modal__footer"}>{footer}</div>
                 </div>
             )}
         </ModalContext.Provider>
@@ -61,19 +50,19 @@ export const CompoundModal = ({ isOpen, children }: ModalProps) => {
 };
 
 const BigEmoji: React.FC<BigEmojiProps> = ({ emoji }) => {
-    return <div className={modalEmojiContent}>{emoji}</div>
+    return <div className={"modal__emoji-content"}>{emoji}</div>
 };
 
 const Header: React.FC<ModalHeaderProps> = ({ title }) => {
-    return <h4 className={modalHeaderContent}>{title}</h4>;
+    return <h4 className={"modal__header-content"}>{title}</h4>;
 };
 
 const Body: React.FC<ModalBodyProps> = ({ description }) => {
-    return <p className={modalBodyContent}>{description}</p>;
+    return <p className={"modal__body-content"}>{description}</p>;
 };
 
 const Footer: React.FC<ModalFooterProps> = ({ buttonText, handleClose }) => {
-    return <div className={modalFooterContent}><button className={modalButton} onClick={handleClose}>{buttonText}</button></div>;
+    return <div className={"modal__footer-content"}><button className={"modal__button"} onClick={handleClose}>{buttonText}</button></div>;
 };
 
 CompoundModal.BigEmoji = BigEmoji;

@@ -1,0 +1,15 @@
+.container {
+    padding: 10px;
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(22,22,22,1) 60%, rgba(44,44,44,1) 90%);
+    height: 100vh;
+    color: white;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 2rem;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}

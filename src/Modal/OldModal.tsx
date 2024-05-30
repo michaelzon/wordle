@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
-import {modal, modalButton} from "../styles/Wordle.css";
 import {useDialog} from 'react-aria';
 import type {AriaDialogProps} from 'react-aria';
+import "./compound-modal.css";
 
 interface ModalProps extends AriaDialogProps {
     isOpen: boolean;
@@ -33,9 +33,9 @@ export const OldModal: React.FC<ModalProps> = ({isOpen, onClose, children, ...pr
     if (!isOpen) return null;
 
     return (
-        <dialog {...dialogProps} ref={ref} className={modal}>
+        <dialog {...dialogProps} ref={ref} className={"modal"}>
             {children}
-            <button className={modalButton} onClick={onClose}>Try Again</button>
+            <button className={"modal__button"} onClick={onClose}>Try Again</button>
         </dialog>
     );
 };
