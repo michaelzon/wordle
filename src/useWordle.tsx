@@ -1,5 +1,4 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
-import axios from "axios";
 
 interface Tile {
     letter: string;
