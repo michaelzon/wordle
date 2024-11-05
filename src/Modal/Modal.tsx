@@ -14,6 +14,10 @@ interface ModalHeaderProps {
     children?: ReactNode;
 }
 
+interface ModalDescriptionProps {
+    children?: ReactNode;
+}
+
 interface ModalBodyProps {
     children?: ReactNode;
 }
@@ -51,6 +55,12 @@ const Header: React.FC<ModalHeaderProps> = ({children}) => {
     </div>
 };
 
+const Description: React.FC<ModalDescriptionProps> = ({children}) => {
+    return <div className={"modal__description"}>
+        <p className={"modal__description-content"}>{children}</p>
+    </div>
+};
+
 const Body: React.FC<ModalBodyProps> = ({children}) => {
     return <div className={"modal__body"}>
         <p className={"modal__body-content"}>{children}</p>
@@ -67,5 +77,6 @@ const Footer: React.FC<ModalFooterProps> = ({children, handleClose}) => {
 
 Modal.BigEmoji = BigEmoji;
 Modal.Header = Header;
+Modal.Description = Description;
 Modal.Body = Body;
 Modal.Footer = Footer;

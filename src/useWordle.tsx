@@ -1,4 +1,5 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
+import {existingWords} from "./words";
 
 interface Tile {
     letter: string;
@@ -25,31 +26,20 @@ export function useWordle() {
         );
     };
 
-    const fetchWordHeroku = async () => {
+    async function fetchWordDataMuse() {
         try {
-            // const response = await axios.get('https://random-word-api.herokuapp.com/word?length=5');
-            // setMysteryWord(response.data[0].split(''));
-            setMysteryWord(['h', 'e', 'l', 'l', 'o']);
+            const response = await fetch(`https://api.datamuse.com/words?sp=?????`);
+            const words = await response.json();
+            const word = words[Math.floor(Math.random() * 100)].word;
+            setMysteryWord(word.split(''));
         } catch (error) {
             console.error('Error fetching wordle data', error);
         }
-    };
-
-    // async function fetchWordDataMuse() {
-    //     try {
-    //         const response = await fetch(`https://api.datamuse.com/words?sp=?????`);
-    //         const words = await response.json();
-    //         const word = words[Math.floor(Math.random() * 100)].word;
-    //         setMysteryWord(word.split(''));
-    //     } catch (error) {
-    //         console.error('Error fetching wordle data', error);
-    //     }
-    // }
+    }
 
     useEffect(() => {
         const asyncEffect = async () => {
-            await fetchWordHeroku();
-            // await fetchWordDataMuse();
+            await fetchWordDataMuse();
             const rows = initRows();
             setRows(rows);
         };
@@ -78,24 +68,24 @@ export function useWordle() {
         }
 
         if (e.key === 'Enter' && currentTileIndex === 5) {
-            // const lookUpWord = new Promise((resolve, reject) => {
-            //     if (existingWords.includes(currentGuess.join(''))) {
-            //         resolve('Word is in dictionary');
-            //     } else {
-            //         reject('Word is not in dictionary');
-            //     }
-            // });
+            const lookUpWord = new Promise((resolve, reject) => {
+                if (existingWords.includes(currentGuess.join(''))) {
+                    resolve('Word is in dictionary');
+                } else {
+                    reject('Word is not in dictionary');
+                }
+            });
 
-            // lookUpWord.then(() => {
+            lookUpWord.then(() => {
                 checkForMultiples();
                 handleRows();
                 checkIfGuessIsCorrect();
                 setCurrentTileIndex(0);
                 setTurn(prev => prev + 1);
                 setCurrentGuess([]);
-            // }).catch(() => {
-            //     setWordExists(false);
-            // });
+            }).catch(() => {
+                setWordExists(false);
+            });
         }
 
     }, [currentTileIndex, currentGuess]);
@@ -165,8 +155,6 @@ export function useWordle() {
         })
     };
 
-    console.log(mysteryWord);
-
     const handleTryAgain = () => {
         setRoundIsWon(false);
         setModalIsOpen(false)
@@ -176,10 +164,9 @@ export function useWordle() {
         const rows = initRows();
         setRows(rows);
         (async () => {
-            await fetchWordHeroku();
-            // await fetchWordDataMuse();
+            await fetchWordDataMuse();
         })();
     };
 
-    return {rows: rows, handleTryAgain, wordExists, roundIsWon, modalIsOpen};
+    return {rows: rows, handleTryAgain, wordExists, roundIsWon, modalIsOpen, mysteryWord};
 }

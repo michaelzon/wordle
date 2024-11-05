@@ -7,7 +7,7 @@ import './wordle.css';
 import {Modal} from "./Modal/Modal";
 
 function Wordle() {
-    const { rows, wordExists, modalIsOpen, handleTryAgain, roundIsWon } = useWordle();
+    const { rows, wordExists, modalIsOpen, handleTryAgain, roundIsWon, mysteryWord } = useWordle();
 
     return (
         <main className={"container"}>
@@ -24,6 +24,7 @@ function Wordle() {
             <Modal isOpen={modalIsOpen}>
                 <Modal.BigEmoji> {roundIsWon ? "🏆" : "🙈"} </Modal.BigEmoji>
                 <Modal.Header> {roundIsWon ? "You're a Winner, Champ! 🏆" : "Oops! Though Luck, But Don't Give Up!"} </Modal.Header>
+                <Modal.Description> {roundIsWon ? `You guessed the word: '${mysteryWord.join("")}'!` : `The word was '${mysteryWord.join("")}'`} </Modal.Description>
                 <Modal.Body> {roundIsWon ? "Congrats! You've crushed it and won the game. Now, bask in your glory and celebrate like a boss! 🎉" : "You didn't quite make it this time, but hey no worries! Give it another shot, and whoknows, the next round might be your moment of glory! Keep going champ! 💪🎮 "} </Modal.Body>
                 <Modal.Footer handleClose={handleTryAgain}> Try Again </Modal.Footer>
             </Modal>
