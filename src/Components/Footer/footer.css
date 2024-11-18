@@ -5,5 +5,12 @@
 }
 
 .author {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
     text-align: center;
+}
+
+.link {
+    color: white;
 }
