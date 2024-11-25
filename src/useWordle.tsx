@@ -16,7 +16,8 @@ export function useWordle() {
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
     const [roundIsWon, setRoundIsWon] = useState<boolean>(false);
     const [wordExists, setWordExists] = useState(true);
-    
+    const [modalIsEscaped, setModalIsEscaped] = useState<boolean>(false); // we need this so we can show a try again button if users escapes modal
+
     const initRows = (): Tile[][] => {
         return Array(5).fill(null).map(() =>
             Array(5).fill(null).map(() => ({
@@ -168,5 +169,5 @@ export function useWordle() {
         })();
     };
 
-    return {rows: rows, handleTryAgain, wordExists, roundIsWon, modalIsOpen, setModalIsOpen, mysteryWord};
+    return {rows: rows, handleTryAgain, wordExists, roundIsWon, modalIsOpen, setModalIsOpen, mysteryWord, turn, modalIsEscaped, setModalIsEscaped};
 }

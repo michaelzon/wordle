@@ -5,23 +5,27 @@ import WordCheckInfo from './Components/WordCheckInfo/WordCheckInfo';
 import { useWordle } from './useWordle';
 import './wordle.css';
 import {Modal} from "./Modal/Modal";
+import React from "react";
 
 function Wordle() {
-    const { rows, wordExists, modalIsOpen, setModalIsOpen, handleTryAgain, roundIsWon, mysteryWord } = useWordle();
+    const { rows, wordExists, modalIsOpen, setModalIsOpen, handleTryAgain, roundIsWon, mysteryWord, modalIsEscaped, setModalIsEscaped } = useWordle();
 
     return (
         <main className={"container"}>
             {!modalIsOpen &&
                 <div aria-hidden={modalIsOpen} className={"wrapper"}>
-                    <Instructions />
-                    <Grid rows={rows} />
+                    <Instructions/>
+                    <Grid rows={rows}/>
                     {!wordExists &&
-                        <WordCheckInfo />
+                        <WordCheckInfo/>
                     }
-                    <Footer />
+                    {modalIsEscaped &&
+                        <button className={"container__button theme"} onClick={handleTryAgain}>{"Try again"}</button>
+                    }
+                    <Footer/>
                 </div>
             }
-            <Modal setIsOpen={setModalIsOpen} isOpen={modalIsOpen} handleClose={handleTryAgain}>
+            <Modal setIsOpen={setModalIsOpen} isOpen={modalIsOpen} handleClose={handleTryAgain} setModalIsEscaped={setModalIsEscaped} modalIsEscaped={modalIsEscaped}>
                 <Modal.BigEmoji> {roundIsWon ? "🏆" : "🙈"} </Modal.BigEmoji>
                 <Modal.Header> {roundIsWon ? "You're a Winner, Champ! 🏆" : "Oops! Though Luck, But Don't Give Up!"} </Modal.Header>
                 <Modal.Description> {roundIsWon ? `You guessed the word: '${mysteryWord.join("")}'!` : `The word was '${mysteryWord.join("")}'`} </Modal.Description>

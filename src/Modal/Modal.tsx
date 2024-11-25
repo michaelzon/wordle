@@ -7,6 +7,8 @@ interface ModalProps {
     setIsOpen: (isOpen: boolean) => void;
     children?: ReactNode;
     handleClose: () => void;
+    setModalIsEscaped: (modalIsEscaped: boolean) => void;
+    modalIsEscaped: boolean;
 }
 
 interface BigEmojiProps {
@@ -34,16 +36,18 @@ interface ModalFooterProps {
 const ModalContext = createContext<ModalProps>({
     setIsOpen: () => {
     }, isOpen: false, handleClose: () => {
-    }
+    },
+    setModalIsEscaped: () => {},
+    modalIsEscaped: false,
 });
 
-export const Modal = ({isOpen, setIsOpen, handleClose, children}: ModalProps) => {
+export const Modal = ({isOpen, setIsOpen, handleClose, children, setModalIsEscaped, modalIsEscaped}: ModalProps) => {
 
     const handleKeyDown = (e: KeyboardEvent) => {
-        console.log(e, 'henk henk henk')
         switch (e.key) {
             case "Escape":
                 setIsOpen(false);
+                setModalIsEscaped(true);
                 e.preventDefault();
                 break;
             case "Enter":
@@ -56,7 +60,7 @@ export const Modal = ({isOpen, setIsOpen, handleClose, children}: ModalProps) =>
     }
 
     return (
-        <ModalContext.Provider value={{setIsOpen, isOpen, handleClose}}>
+        <ModalContext.Provider value={{setIsOpen, isOpen, handleClose, setModalIsEscaped, modalIsEscaped}}>
             {isOpen && (
                 <dialog className={"modal"} onKeyDown={handleKeyDown}>
                     {children}
