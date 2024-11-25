@@ -24,7 +24,7 @@
     justify-content: space-around;
 }
 
-.modal__emoji-content {
+.modal__emoji {
     display: flex;
     font-size: 5rem;
     align-items: center;
@@ -36,7 +36,6 @@
     align-items: center;
     justify-content: center;
 }
-
 
 .modal__header-content {
     margin: 0;

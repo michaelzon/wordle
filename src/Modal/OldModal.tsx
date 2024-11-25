@@ -13,6 +13,8 @@ export const OldModal: React.FC<ModalProps> = ({isOpen, onClose, children, ...pr
     let ref = React.useRef(null);
     let {dialogProps} = useDialog(props, ref);
 
+
+
     // ensuring escape can also close the modal for accessibility
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {

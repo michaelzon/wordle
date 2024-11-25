@@ -1,9 +1,12 @@
-import React, {ReactNode, createContext} from 'react';
+import React, {ReactNode, createContext, KeyboardEvent} from 'react';
 import "./compound-modal.css";
+import FocusLock from 'react-focus-lock';
 
 interface ModalProps {
     isOpen: boolean;
+    setIsOpen: (isOpen: boolean) => void;
     children?: ReactNode;
+    handleClose: () => void;
 }
 
 interface BigEmojiProps {
@@ -28,25 +31,43 @@ interface ModalFooterProps {
     children?: ReactNode;
 }
 
-const ModalContext = createContext<ModalProps>({isOpen: false});
+const ModalContext = createContext<ModalProps>({
+    setIsOpen: () => {
+    }, isOpen: false, handleClose: () => {
+    }
+});
 
-export const Modal = ({isOpen, children}: ModalProps) => {
+export const Modal = ({isOpen, setIsOpen, handleClose, children}: ModalProps) => {
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+        console.log(e, 'henk henk henk')
+        switch (e.key) {
+            case "Escape":
+                setIsOpen(false);
+                e.preventDefault();
+                break;
+            case "Enter":
+                handleClose();
+                e.preventDefault();
+                break;
+            default:
+                break;
+        }
+    }
 
     return (
-        <ModalContext.Provider value={{isOpen}}>
+        <ModalContext.Provider value={{setIsOpen, isOpen, handleClose}}>
             {isOpen && (
-                <div className={"modal"}>
+                <dialog className={"modal"} onKeyDown={handleKeyDown}>
                     {children}
-                </div>
+                </dialog>
             )}
         </ModalContext.Provider>
     );
 };
 
 const BigEmoji: React.FC<BigEmojiProps> = ({children}) => {
-    return <div className={"modal__big-emoji"}>
-        <div className={"modal__emoji-content"}>{children}</div>
-    </div>
+    return <div className={"modal__emoji"}>{children}</div>
 };
 
 const Header: React.FC<ModalHeaderProps> = ({children}) => {
@@ -70,7 +91,9 @@ const Body: React.FC<ModalBodyProps> = ({children}) => {
 const Footer: React.FC<ModalFooterProps> = ({children, handleClose}) => {
     return <div className={"modal__footer"}>
         <div className={"modal__footer-content"}>
-            <button className={"modal__button"} onClick={handleClose}>{children}</button>
+            <FocusLock>
+                <button className={"modal__button"} onClick={handleClose}>{children}</button>
+            </FocusLock>
         </div>
     </div>
 };

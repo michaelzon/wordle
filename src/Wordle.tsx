@@ -7,12 +7,12 @@ import './wordle.css';
 import {Modal} from "./Modal/Modal";
 
 function Wordle() {
-    const { rows, wordExists, modalIsOpen, handleTryAgain, roundIsWon, mysteryWord } = useWordle();
+    const { rows, wordExists, modalIsOpen, setModalIsOpen, handleTryAgain, roundIsWon, mysteryWord } = useWordle();
 
     return (
         <main className={"container"}>
             {!modalIsOpen &&
-                <div className={"wrapper"}>
+                <div aria-hidden={modalIsOpen} className={"wrapper"}>
                     <Instructions />
                     <Grid rows={rows} />
                     {!wordExists &&
@@ -21,7 +21,7 @@ function Wordle() {
                     <Footer />
                 </div>
             }
-            <Modal isOpen={modalIsOpen}>
+            <Modal setIsOpen={setModalIsOpen} isOpen={modalIsOpen} handleClose={handleTryAgain}>
                 <Modal.BigEmoji> {roundIsWon ? "🏆" : "🙈"} </Modal.BigEmoji>
                 <Modal.Header> {roundIsWon ? "You're a Winner, Champ! 🏆" : "Oops! Though Luck, But Don't Give Up!"} </Modal.Header>
                 <Modal.Description> {roundIsWon ? `You guessed the word: '${mysteryWord.join("")}'!` : `The word was '${mysteryWord.join("")}'`} </Modal.Description>

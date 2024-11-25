@@ -168,5 +168,5 @@ export function useWordle() {
         })();
     };
 
-    return {rows: rows, handleTryAgain, wordExists, roundIsWon, modalIsOpen, mysteryWord};
+    return {rows: rows, handleTryAgain, wordExists, roundIsWon, modalIsOpen, setModalIsOpen, mysteryWord};
 }
